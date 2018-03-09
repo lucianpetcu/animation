@@ -27,6 +27,7 @@ window.onload = function(){
     internalStartInterval(r1);
     internalStartInterval(r2);
 
+    
     var hasAccelerated = false;
     
     
