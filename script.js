@@ -13,6 +13,7 @@ window.onload = function(){
             variableInterval :variabilaI ,
             intervalTime : intervalTime          
         };
+        this.isAccelerating = false;
     }
     
     function internalStartInterval(runner)
@@ -38,21 +39,26 @@ window.onload = function(){
             r.Pos += 1;
             r.Div.style.left = r.Pos +'px';
             r.Div.firstChild.innerHTML = 'Arriving in '+(container.offsetWidth - r.Div.offsetWidth -parseInt(r.Div.style.left, 10))+' pixels';
+            if (r.isAccelerating){
+                r.Div.firstChild.innerHTML = r.Div.firstChild.innerHTML+ '\n Accelerating!!!';   
+            }
             if ((container.offsetWidth - r.Div.offsetWidth -parseInt(r.Div.style.left, 10) < (container.offsetWidth/2)) &&  (!hasAccelerated)){
                 if (r==r1){
-                    clearInterval(r2.interv.variableInterval);
-                    r2.interv.intervalTime = r2.interv.intervalTime -(r2.interv.intervalTime *0.7);
-                    internalStartInterval(r2);}
+                    accelerate(r2);}
                 else{
-                    clearInterval(r1.interv.variableInterval);
-                    r1.interv.intervalTime = r1.interv.intervalTime -(r1.interv.intervalTime *0.7);
-                    internalStartInterval(r1);
+                    accelerate(r1);
                 }
                 hasAccelerated = true;
             }
         }
     }
 
+    function accelerate(r){
+        clearInterval(r.interv.variableInterval);
+        r.interv.intervalTime = r.interv.intervalTime -(r.interv.intervalTime *0.7);
+        internalStartInterval(r);
+        r.isAccelerating = true;
+    }
 
     function stopRace(winner){
         clearInterval(r1.interv.variableInterval);
